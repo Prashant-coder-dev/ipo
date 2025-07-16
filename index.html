@@ -37,6 +37,11 @@
       margin-top: 32px;
       letter-spacing: 1px;
     }
+    th.open-date, th.close-date, td.open-date, td.close-date {
+      min-width: 120px;
+      width: 140px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -59,9 +64,38 @@
           const table = document.getElementById('sheetTable');
           const thead = table.querySelector('thead');
           const tbody = table.querySelector('tbody');
-          thead.innerHTML = '<tr>' + rows[0].map(cell => `<th>${cell}</th>`).join('') + '</tr>';
+
+          // Add class to Open Date and Close Date columns for width styling
+          thead.innerHTML = '<tr>' + rows[0].map((cell, idx) => {
+            if (cell.toLowerCase().includes('open-date')) return `<th class="open-date">${cell}</th>`;
+            if (cell.toLowerCase().includes('close-date')) return `<th class="close-date">${cell}</th>`;
+            return `<th>${cell}</th>`;
+          }).join('') + '</tr>';
+
+          // Helper to format numbers with commas
+          function formatNumber(val) {
+            if (!isNaN(val) && val !== '' && val !== null) {
+              let num = Number(val);
+              // Only format if it's a number and not a date
+              if (!isNaN(num) && val.length < 15) return num.toLocaleString();
+            }
+            return val;
+          }
+
           tbody.innerHTML = rows.slice(1).map(row =>
-            '<tr>' + row.map(cell => `<td>${cell}</td>`).join('') + '</tr>'
+            '<tr>' + row.map((cell, idx) => {
+              // Format numbers with commas except for date columns
+              const header = rows[0][idx].toLowerCase();
+              let cellClass = '';
+              if (header.includes('open-date')) cellClass = 'open-date';
+              if (header.includes('close-date')) cellClass = 'close-date';
+              let value = cell;
+              // Format numbers for all columns except Open/Close Date
+              if (!header.includes('date') && !isNaN(cell) && cell !== '') {
+                value = formatNumber(cell);
+              }
+              return `<td${cellClass ? ` class="${cellClass}"` : ''}>${value}</td>`;
+            }).join('') + '</tr>'
           ).join('');
         })
         .catch(error => {
