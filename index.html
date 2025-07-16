@@ -2,15 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Live Google Sheet Data</title>
+  <title>Current Issue Status</title>
   <style>
-    table { border-collapse: collapse; width: 80%; margin: 20px auto; }
-    th, td { border: 1px solid #ccc; padding: 8px; }
-    th { background: #f4f4f4; }
+    body {
+      background: #181a1b;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+    }
+    table {
+      border-collapse: collapse;
+      width: 80%;
+      margin: 32px auto 20px auto;
+      background: #23272b;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    }
+    th, td {
+      border: 1px solid #333;
+      padding: 10px 8px;
+    }
+    th {
+      background: #2d3136;
+      color: #f4f4f4;
+      font-weight: 600;
+    }
+    td {
+      background: #23272b;
+      color: #e0e0e0;
+    }
+    h2 {
+      text-align: center;
+      color: #f4f4f4;
+      margin-top: 32px;
+      letter-spacing: 1px;
+    }
   </style>
 </head>
 <body>
-  <h2 style="text-align:center;">Live Google Sheet Data</h2>
+  <h2>Current Issue Status</h2>
   <table id="sheetTable">
     <thead></thead>
     <tbody></tbody>
