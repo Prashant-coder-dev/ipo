@@ -42,10 +42,42 @@
       width: 140px;
       text-align: center;
     }
+    .refresh-info {
+      text-align: center;
+      margin: 10px auto 20px auto;
+      font-size: 14px;
+      color: #aaa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+    .refresh-time {
+      color: #33d6bb;
+      font-weight: 600;
+    }
+    .auto-refresh-indicator {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #33d6bb;
+      margin-right: 5px;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.4; }
+      100% { opacity: 1; }
+    }
   </style>
 </head>
 <body>
   <h2>Current Issue Status</h2>
+  <div class="refresh-info">
+    <span class="auto-refresh-indicator"></span>
+    Last updated: <span id="lastRefreshed" class="refresh-time"></span>
+  </div>
   <table id="sheetTable">
     <thead></thead>
     <tbody></tbody>
@@ -55,6 +87,12 @@
     const SHEET_ID = '1Woko_oJhd4fJJBAD3Ph0MYd0JJ8Neb5lJCrTbCTyiCM';
     const GID = '0';
     const csvUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&id=${SHEET_ID}&gid=${GID}`;
+
+    function updateRefreshTime() {
+      const now = new Date();
+      const formattedTime = now.toLocaleTimeString();
+      document.getElementById('lastRefreshed').textContent = formattedTime;
+    }
 
     function fetchAndDisplaySheet() {
       fetch(csvUrl)
@@ -106,6 +144,8 @@
 
     fetchAndDisplaySheet();
     setInterval(fetchAndDisplaySheet, 30000); // Refresh every 30 seconds
+    // Initialize the refresh time on page load
+    updateRefreshTime();
   </script>
 </body>
 </html>
